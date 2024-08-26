@@ -50,15 +50,15 @@ async function updateRecord(props: UpdateRecordProps) {
 export function addUpdateProgram() {
   program
     .command("update")
-    .description("Updates IP for given hostname.")
+    .description("Updates the IP address for the specified hostname.")
     .requiredOption(
       "--token <string>",
-      "Your access token (create it in the https://cname.dev dashboard)."
+      "Your access token (create it in the dashboard at https://cname.dev)."
     )
     .requiredOption("--domain <string>", "Domain name.")
     .option(
       "--ip [string]",
-      "IP to which the domain will be mapped. If not provided, will be automatically detected."
+      "IP address to which the domain will be mapped. If not specified, it will be determined automatically."
     )
     .requiredOption(
       "--port <number>",

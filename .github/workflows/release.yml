@@ -48,7 +48,7 @@ jobs:
             ## Installation
 
             ```bash
-            $ curl https://cli.cname.dev | bash
+            $ curl -sL https://cli.cname.dev | bash
             ```
           files: |
             ./dist/cnamed-darwin-arm64.tar.gz
