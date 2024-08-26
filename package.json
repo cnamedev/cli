@@ -1,0 +1,23 @@
+{
+  "name": "@cnamedev/cli",
+  "version": "0.0.0",
+  "module": "src/index.ts",
+  "type": "module",
+  "scripts": {
+    "dev": "bun run ./src/index.ts",
+    "compile:linux-x64": "bun build ./src/index.ts --compile --target=bun-linux-x64 --minify --outfile ./dist/cnamed-linux-x64",
+    "compile:linux-arm64": "bun build ./src/index.ts --compile --target=bun-linux-arm64 --minify --outfile ./dist/cnamed-linux-arm64",
+    "compile:darwin-x64": "bun build ./src/index.ts --compile --target=bun-darwin-x64 --minify --outfile ./dist/cnamed-darwin-x64",
+    "compile:darwin-arm64": "bun build ./src/index.ts --compile --target=bun-darwin-arm64 --minify --outfile ./dist/cnamed-darwin-arm64",
+    "compile": "bun compile:linux-x64 && bun compile:linux-arm64 && bun compile:darwin-x64 && bun compile:darwin-arm64"
+  },
+  "dependencies": {
+    "commander": "^12.1.0"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.1.8"
+  },
+  "peerDependencies": {
+    "typescript": "^5.5.4"
+  }
+}
