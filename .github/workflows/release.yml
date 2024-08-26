@@ -12,12 +12,13 @@ jobs:
     permissions:
       contents: write
       pages: write
-    environment:
-      name: production
-      url: https://cli.cname.dev
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
+      - name: Get the version
+        id: get_version
+        run: echo ::set-output name=VERSION::${GITHUB_REF#refs/tags/}
 
       - name: Install bun
         uses: oven-sh/setup-bun@v2
@@ -29,10 +30,6 @@ jobs:
 
       - name: Compile CLI
         run: bun compile
-
-      - name: Get the version
-        id: get_version
-        run: echo ::set-output name=VERSION::${GITHUB_REF#refs/tags/}
 
       - name: Create archives
         run: |
