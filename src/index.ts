@@ -1,5 +1,4 @@
 import { program } from "commander";
-import packageJson from "../package.json";
 import { addUpdateProgram } from "./update";
 
 program

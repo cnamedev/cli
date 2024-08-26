@@ -1,0 +1,26 @@
+name: Pages
+
+on: workflow_dispatch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: write
+      pages: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Prepare install page
+        run: |
+          mkdir ./public
+          mv ./install.sh ./public/index.html
+
+      - name: Deploy install page
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public
+          cname: cli.cname.dev

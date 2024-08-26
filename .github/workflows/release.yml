@@ -11,7 +11,6 @@ jobs:
     timeout-minutes: 5
     permissions:
       contents: write
-      pages: write
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -30,6 +29,8 @@ jobs:
 
       - name: Compile CLI
         run: bun compile
+        env:
+          VERSION: ${{ steps.get_version.outputs.VERSION }}
 
       - name: Create archives
         run: |
@@ -56,15 +57,3 @@ jobs:
             ./dist/cnamed-darwin-x64.tar.gz
             ./dist/cnamed-linux-arm64.tar.gz
             ./dist/cnamed-linux-x64.tar.gz
-
-      - name: Prepare install page
-        run: |
-          mkdir ./public
-          mv ./install.sh ./public/index.html
-
-      - name: Deploy install page
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./public
-          cname: cli.cname.dev
