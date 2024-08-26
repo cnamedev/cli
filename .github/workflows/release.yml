@@ -1,0 +1,57 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.1.26
+
+      - name: Install Dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Compile CLI
+        run: bun compile
+
+      - name: Get the version
+        id: get_version
+        run: echo ::set-output name=VERSION::${GITHUB_REF#refs/tags/}
+
+      - name: Create archives
+        run: |
+          cd ./dist
+          for file in cnamed-*; do
+            tar -czf "${file}.tar.gz" "$file"
+          done
+          cd ..
+
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: Release ${{ steps.get_version.outputs.VERSION }}
+          body: |
+            Release ${{ steps.get_version.outputs.VERSION }}
+
+            ## Installation
+
+            ```bash
+            $ curl https://cli.cname.dev | bash
+            ```
+          files: |
+            ./dist/cnamed-darwin-arm64.tar.gz
+            ./dist/cnamed-darwin-x64.tar.gz
+            ./dist/cnamed-linux-arm64.tar.gz
+            ./dist/cnamed-linux-x64.tar.gz
