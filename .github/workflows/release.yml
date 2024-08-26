@@ -11,6 +11,10 @@ jobs:
     timeout-minutes: 5
     permissions:
       contents: write
+      pages: write
+    environment:
+      name: production
+      url: https://cli.cname.dev
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -55,3 +59,15 @@ jobs:
             ./dist/cnamed-darwin-x64.tar.gz
             ./dist/cnamed-linux-arm64.tar.gz
             ./dist/cnamed-linux-x64.tar.gz
+
+      - name: Prepare install page
+        run: |
+          mkdir ./public
+          mv ./install.sh ./public/index.html
+
+      - name: Deploy install page
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public
+          cname: cli.cname.dev
