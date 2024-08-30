@@ -1,6 +1,6 @@
 # @cnamedev/cli
 
-`cnamed` is a CLI tool designed to update your entries in the https://cname.dev free tunneling service.
+`cnamed` is a CLI tool designed to update your entries in the https://cname.dev free dynamic reverse proxy service.
 
 ## About
 
