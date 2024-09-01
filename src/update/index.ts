@@ -17,12 +17,19 @@ async function updateRecord(props: UpdateRecordProps) {
         }`
       );
 
-      const body = JSON.stringify({
+      const body: Record<string, unknown> = {
         token: props.token,
         domain: domainConfig.domain,
-        ip: domainConfig.ip,
         port: parseInt(domainConfig.port),
-      });
+      };
+
+      if (domainConfig.ip) {
+        body.ip = domainConfig.ip;
+      }
+
+      if (props.dry) {
+        body.dry = String(body.dry);
+      }
 
       const url = "https://api.cname.dev/v1/domains/record";
       const response = await fetch(url, {
@@ -30,7 +37,7 @@ async function updateRecord(props: UpdateRecordProps) {
         headers: {
           "Content-Type": "application/json",
         },
-        body,
+        body: JSON.stringify(body),
       });
 
       const result = await response.json();
@@ -88,6 +95,7 @@ export function addUpdateProgram() {
       "IP address to which the domain will be mapped. If not specified, it will be determined automatically."
     )
     .option("--port <string>", "Port to which the domain will be mapped.")
+    .option("--dry <boolean>", "Dry run.")
     .action(async (args) => {
       try {
         let updateProps: UpdateRecordProps;

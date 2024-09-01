@@ -1,4 +1,4 @@
-# @cnamedev/cli
+# `cnamed`
 
 `cnamed` is a CLI tool designed to update your entries in the https://cname.dev free dynamic reverse proxy service.
 
@@ -93,7 +93,7 @@ Options:
   --domain <string>   Domain name to update.
   --ip <string>       IP address to which the domain will be mapped. If not specified, it will be determined automatically.
   --port <string>     Port to which the domain will be mapped.
-  --schema <string>   URL of the JSON schema for config validation (optional).
+  --dry <boolean>     Dry run.
   -h, --help          display help for command
 ```
 
