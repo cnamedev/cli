@@ -49,6 +49,7 @@ Example config file (JSON format):
 
 ```json
 {
+  "$schema": "https://cli.cname.dev/schemas/update.json",
   "token": "your_token",
   "domains": [
     {

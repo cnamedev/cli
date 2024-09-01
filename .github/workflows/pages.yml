@@ -13,10 +13,24 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Install bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.1.26
+
+      - name: Install Dependencies
+        run: bun install --frozen-lockfile
+
       - name: Prepare install page
         run: |
           mkdir ./public
           mv ./install.sh ./public/index.html
+
+      - name: Prepare JSON schema
+        run: |
+          mkdir ./public/schemas
+          bun create-json-schema
+          mv ./dist/update.json ./public/schemas/update.json
 
       - name: Deploy install page
         uses: peaceiris/actions-gh-pages@v4

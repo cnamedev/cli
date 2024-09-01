@@ -9,10 +9,13 @@
     "compile:linux-arm64": "bun build ./src/index.ts --compile --target=bun-linux-arm64 --minify --outfile ./dist/cnamed-linux-arm64",
     "compile:darwin-x64": "bun build ./src/index.ts --compile --target=bun-darwin-x64 --minify --outfile ./dist/cnamed-darwin-x64",
     "compile:darwin-arm64": "bun build ./src/index.ts --compile --target=bun-darwin-arm64 --minify --outfile ./dist/cnamed-darwin-arm64",
-    "compile": "bun compile:linux-x64 && bun compile:linux-arm64 && bun compile:darwin-x64 && bun compile:darwin-arm64"
+    "compile": "bun compile:linux-x64 && bun compile:linux-arm64 && bun compile:darwin-x64 && bun compile:darwin-arm64",
+    "create-json-schema": "typescript-json-schema ./tsconfig.json UpdateRecordProps --out ./dist/update.json",
+    "types": "tsc --noEmit"
   },
   "dependencies": {
-    "commander": "^12.1.0"
+    "commander": "^12.1.0",
+    "typescript-json-schema": "^0.65.1"
   },
   "devDependencies": {
     "@types/bun": "^1.1.8"
