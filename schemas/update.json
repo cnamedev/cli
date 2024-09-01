@@ -1,0 +1,41 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "properties": {
+        "$schema": {
+            "description": "The JSON Schema URI for this configuration",
+            "format": "uri",
+            "type": "string"
+        },
+        "domains": {
+            "description": "Domains to update",
+            "items": {
+                "properties": {
+                    "domain": {
+                        "description": "Domain name",
+                        "type": "string"
+                    },
+                    "ip": {
+                        "description": "IP address to which the domain will be mapped. If not specified, it will be determined automatically.",
+                        "type": "string"
+                    },
+                    "port": {
+                        "description": "Port to which the domain will be mapped.",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "type": "array"
+        },
+        "dry": {
+            "description": "Dry run.",
+            "type": "boolean"
+        },
+        "token": {
+            "description": "Your access token (create it in the dashboard at https://cname.dev).",
+            "type": "string"
+        }
+    },
+    "type": "object"
+}
+
