@@ -107,6 +107,7 @@ export function addUpdateProgram() {
           // Create configuration from command-line arguments
           updateProps = {
             token: args.token,
+            dry: args.dry,
             domains: [
               {
                 domain: args.domain,
