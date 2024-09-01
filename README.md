@@ -147,3 +147,21 @@ services:
 - `IP`: The IP address to set (optional)
 - `CRON_SCHEDULE`: The schedule for running the update (default: `*/15 * * * *`, which is every 15 minutes)
 - `CONFIG_FILE`: Path to the configuration file inside the container (optional, overrides individual `TOKEN`, `DOMAIN`, `PORT`, and `IP` settings)
+
+### API
+
+You can also use the API directly to update your domain.
+
+Here's an example using curl:
+
+```bash
+curl -X PUT \
+  -H "Content-Type: application/json" \
+  -d '{
+    "token": "YOUR_TOKEN",
+    "domain": "YOUR_DOMAIN",
+    "ip": "YOUR_IP",
+    "port": YOUR_PORT
+  }' \
+  http://api.cname.com/v1/domains/record
+```

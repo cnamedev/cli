@@ -6,9 +6,6 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     timeout-minutes: 5
-    permissions:
-      contents: write
-      pages: write
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -21,20 +18,15 @@ jobs:
       - name: Install Dependencies
         run: bun install --frozen-lockfile
 
-      - name: Prepare install page
-        run: |
-          mkdir ./public
-          mv ./install.sh ./public/index.html
-
       - name: Prepare JSON schema
         run: |
           mkdir ./public/schemas
           bun create-json-schema
           mv ./dist/update.json ./public/schemas/update.json
 
-      - name: Deploy install page
-        uses: peaceiris/actions-gh-pages@v4
+      - name: Deploy
+        uses: cloudflare/wrangler-action@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./public
-          cname: cli.cname.dev
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          wranglerVersion: "3.41.0"
+          command: pages deploy ./public/ --project-name=${{ secrets.CLOUDFLARE_PAGE_NAME }} --branch=main --commit-dirty=true
