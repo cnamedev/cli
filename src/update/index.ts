@@ -18,7 +18,6 @@ async function updateRecord(props: UpdateRecordProps) {
       );
 
       const body: Record<string, unknown> = {
-        token: props.token,
         domain: domainConfig.domain,
         port: parseInt(domainConfig.port),
       };
@@ -28,20 +27,21 @@ async function updateRecord(props: UpdateRecordProps) {
       }
 
       if (props.dry) {
-        body.dry = String(body.dry);
+        body.dry = String(props.dry);
       }
 
-      const url = "https://api.cname.dev/v1/domains/record";
+      const url = "https://api.cname.dev/v1/domains-public/record​";
       const response = await fetch(url, {
-        method: "PUT",
+        method: "POST",
         headers: {
+          Authorization: `Bearer ${props.token}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify(body),
       });
 
       const result = await response.json();
-      if (!result.success) {
+      if (!result.ok) {
         throw new Error(`Cannot update record for ${domainConfig.domain}`);
       }
 
