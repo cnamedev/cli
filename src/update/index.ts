@@ -1,5 +1,6 @@
 import { program } from "commander";
-import fs from "fs/promises";
+import fs from "node:fs/promises";
+import { client, type UpdateRecordRequestBody } from "../api";
 import { type UpdateRecordProps } from "./types";
 
 const prefix = "[cnamed]";
@@ -17,7 +18,7 @@ async function updateRecord(props: UpdateRecordProps) {
         }`
       );
 
-      const body: Record<string, unknown> = {
+      const body: UpdateRecordRequestBody = {
         domain: domainConfig.domain,
         port: parseInt(domainConfig.port),
       };
@@ -30,18 +31,16 @@ async function updateRecord(props: UpdateRecordProps) {
         body.dry = String(props.dry);
       }
 
-      const url = "https://api.cname.dev/v1/domains-public/record​";
-      const response = await fetch(url, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${props.token}`,
-          "Content-Type": "application/json",
+      const response = await client.POST("/v1/domains-public/record", {
+        body,
+        params: {
+          header: {
+            authorization: `Bearer ${props.token}`,
+          },
         },
-        body: JSON.stringify(body),
       });
 
-      const result = await response.json();
-      if (!result.ok) {
+      if (!response.data?.ok) {
         throw new Error(`Cannot update record for ${domainConfig.domain}`);
       }
 

@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "bun run ./src/index.ts",
+    "generate-schema": "bun run ./scripts/generate-schema.ts",
     "compile:linux-x64": "bun build ./src/index.ts --compile --target=bun-linux-x64 --minify --outfile ./dist/cnamed-linux-x64",
     "compile:linux-arm64": "bun build ./src/index.ts --compile --target=bun-linux-arm64 --minify --outfile ./dist/cnamed-linux-arm64",
     "compile:darwin-x64": "bun build ./src/index.ts --compile --target=bun-darwin-x64 --minify --outfile ./dist/cnamed-darwin-x64",
@@ -15,10 +16,12 @@
   },
   "dependencies": {
     "commander": "^12.1.0",
+    "openapi-fetch": "^0.12.0",
     "typescript-json-schema": "^0.65.1"
   },
   "devDependencies": {
     "@types/bun": "^1.1.9",
+    "openapi-typescript": "^7.4.0",
     "typescript": "^5.6.2"
   }
 }
