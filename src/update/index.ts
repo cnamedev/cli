@@ -2,8 +2,7 @@ import { program } from "commander";
 import fs from "node:fs/promises";
 import { client, type UpdateRecordRequestBody } from "../api";
 import { type UpdateRecordProps } from "./types";
-
-const prefix = "[cnamed]";
+import { logPrefix } from "../common";
 
 /**
  * Updates DNS records for the specified domains
@@ -12,7 +11,7 @@ async function updateRecord(props: UpdateRecordProps) {
   for (const domainConfig of props.domains) {
     try {
       console.info(
-        prefix,
+        logPrefix,
         `Updating ${domainConfig.domain} record with ${domainConfig.ip || ""}:${
           domainConfig.port
         }`
@@ -45,12 +44,12 @@ async function updateRecord(props: UpdateRecordProps) {
       }
 
       console.info(
-        prefix,
+        logPrefix,
         `The record for ${domainConfig.domain} has been successfully updated!`
       );
     } catch (err) {
       if (err instanceof Error) {
-        console.error(prefix, err.message);
+        console.error(logPrefix, err.message);
       } else {
         throw err;
       }
@@ -76,7 +75,7 @@ async function loadConfig(configPath: string): Promise<UpdateRecordProps> {
 /**
  * Adds the update command to the CLI program
  */
-export function addUpdateProgram() {
+export function addUpdateCommand() {
   program
     .command("update")
     .description("Updates the IP address and port for the specified domain(s).")
@@ -128,9 +127,9 @@ export function addUpdateProgram() {
         await updateRecord(updateProps);
       } catch (error) {
         if (error instanceof Error) {
-          console.error(prefix, "Error:", error.message);
+          console.error(logPrefix, "Error:", error.message);
         } else {
-          console.error(prefix, "An unexpected error occurred.");
+          console.error(logPrefix, "An unexpected error occurred.");
         }
         process.exit(1);
       }

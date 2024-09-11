@@ -2,9 +2,23 @@
 
 `cnamed` is a CLI tool designed to update your entries in the https://cname.dev free dynamic reverse proxy service.
 
+- [`cnamed`](#cnamed)
+  - [About](#about)
+  - [Installation](#installation)
+  - [Supported Architectures](#supported-architectures)
+  - [Record update](#record-update)
+    - [CLI](#cli)
+      - [Using a configuration file](#using-a-configuration-file)
+      - [Using individual arguments](#using-individual-arguments)
+    - [Docker](#docker)
+      - [Docker Compose](#docker-compose)
+      - [Environment Variables](#environment-variables)
+  - [Record retrieve](#record-retrieve)
+  - [API](#api)
+
 ## About
 
-The `cnamed` CLI is designed to update your domain's IP address with a single request.
+The `cnamed` CLI is designed to update or retrieve your domain's IP address with a single request.
 It can use your current public IP or a specified IP address.
 
 However, the `cnamed` itself does not continuously monitor or update your IP.
@@ -33,13 +47,13 @@ The `cnamed` supports the following architectures:
 > If your system architecture is not listed above, you can use the [API](#api) directly to update your domain.
 > See the API Usage section below for details.
 
-## Usage
+## Record update
 
 ### CLI
 
-The CLI supports two methods of input: using a configuration file or providing individual arguments.
+The update CLI supports two methods of input: using a configuration file or providing individual arguments.
 
-#### Using a configuration file:
+#### Using a configuration file
 
 ```sh
 $ cnamed update --config <path-to-config-json>
@@ -65,7 +79,7 @@ Example config file (JSON format):
 }
 ```
 
-#### Using individual arguments:
+#### Using individual arguments
 
 ```sh
 $ cnamed update --token <your_token> --domain <your_domain> --ip <your_ip> --port <your_port>
@@ -148,20 +162,23 @@ services:
 - `CRON_SCHEDULE`: The schedule for running the update (default: `*/15 * * * *`, which is every 15 minutes)
 - `CONFIG_FILE`: Path to the configuration file inside the container (optional, overrides individual `TOKEN`, `DOMAIN`, `PORT`, and `IP` settings)
 
-### API
+## Record retrieve
 
-You can also use the API directly to update your domain.
+The CLI has ability to retrieve your domain record.
 
-Here's an example using curl:
+```sh
+Usage: cnamed get [options]
 
-```bash
-curl -X PUT \
-  -H "Content-Type: application/json" \
-  -d '{
-    "token": "YOUR_TOKEN",
-    "domain": "YOUR_DOMAIN",
-    "ip": "YOUR_IP",
-    "port": YOUR_PORT
-  }' \
-  http://api.cname.com/v1/domains/record
+Returns the IP address and port for the specified domain.
+
+Options:
+  --token <string>   Your access token (create it in the dashboard at https://cname.dev).
+  --domain <string>  Domain name.
+  -h, --help         display help for command
 ```
+
+## API
+
+You can also use the API directly to work with your domain.
+
+See [API documentation](https://cname.dev/api) for more info.
